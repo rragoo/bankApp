@@ -2,9 +2,12 @@ package com.banking.dev.service;
 
 import com.banking.dev.domain.Account;
 import com.banking.dev.domain.Bank;
+import com.banking.dev.domain.Transaction;
 import com.banking.dev.repository.AccountRepository;
 import com.banking.dev.repository.BankRepository;
+import com.banking.dev.repository.TransactionRepository;
 import jakarta.transaction.Transactional;
+import java.math.BigDecimal;
 import java.util.List;
 import java.util.Optional;
 import org.slf4j.Logger;
@@ -23,9 +26,14 @@ public class BankService {
 
     private final AccountRepository accountRepository;
 
-    public BankService(BankRepository bankRepository, AccountRepository accountRepository) {
+    private final TransactionRepository transactionRepository;
+
+    private BigDecimal totalTransactionFeeAmount = BigDecimal.ZERO;
+
+    public BankService(BankRepository bankRepository, AccountRepository accountRepository, TransactionRepository transactionRepository) {
         this.bankRepository = bankRepository;
         this.accountRepository = accountRepository;
+        this.transactionRepository = transactionRepository;
     }
 
     public Optional<Bank> findOne(Long id) {
@@ -74,5 +82,49 @@ public class BankService {
 
     public List<Account> getAllAccounts() {
         return accountRepository.findAll();
+    }
+
+    public BigDecimal calculateTotalTransactionFeeAmount() {
+        BigDecimal totalTransactionFeeAmount = BigDecimal.ZERO;
+
+        // Iterate over all transactions
+        List<Transaction> transactions = transactionRepository.findAll();
+        for (Transaction transaction : transactions) {
+            BigDecimal transactionAmount = transaction.getAmount();
+            BigDecimal transactionFee = calculateTransactionFee(transaction);
+
+            // Accumulate the fee amount to the total
+            totalTransactionFeeAmount = totalTransactionFeeAmount.add(transactionFee);
+        }
+
+        return totalTransactionFeeAmount;
+    }
+
+    private BigDecimal calculateTransactionFee(Transaction transaction) {
+        BigDecimal transactionAmount = transaction.getAmount();
+
+        // Calculate flat fee
+        BigDecimal flatFee = BigDecimal.TEN;
+
+        // Calculate percentage fee (5%)
+        BigDecimal percentageFee = transactionAmount.multiply(BigDecimal.valueOf(0.05));
+
+        // Total transaction fee amount for this transaction
+        BigDecimal totalFeeAmount = flatFee.add(percentageFee);
+
+        return totalFeeAmount;
+    }
+
+    public BigDecimal calculateTotalTransferAmount() {
+        List<Transaction> allTransactions = transactionRepository.findAll();
+        BigDecimal totalTransferAmount = BigDecimal.ZERO;
+
+        for (Transaction transaction : allTransactions) {
+            if ("Transfer".equals(transaction.getTransactionReason())) {
+                totalTransferAmount = totalTransferAmount.add(transaction.getAmount().abs());
+            }
+        }
+
+        return totalTransferAmount;
     }
 }

@@ -4,6 +4,7 @@ import com.banking.dev.domain.Account;
 import com.banking.dev.domain.Bank;
 import com.banking.dev.security.AuthoritiesConstants;
 import com.banking.dev.service.BankService;
+import java.math.BigDecimal;
 import java.net.URI;
 import java.net.URISyntaxException;
 import java.util.List;
@@ -37,6 +38,28 @@ public class BankResource {
         List<Account> accounts = bankService.getAllAccounts();
 
         return new ResponseEntity<>(accounts, HttpStatus.OK);
+    }
+
+    /**
+     * GET /api/total-transaction-fee : Retrieve the total transaction fee amount for the bank.
+     *
+     * @return the ResponseEntity with status 200 (OK) and the total transaction fee amount in the body
+     */
+    @GetMapping("/total-transaction-fee")
+    public ResponseEntity<BigDecimal> getTotalTransactionFeeAmount() {
+        BigDecimal totalTransactionFeeAmount = bankService.calculateTotalTransactionFeeAmount();
+        return ResponseEntity.ok(totalTransactionFeeAmount);
+    }
+
+    /**
+     * GET /api/total-transfer-amount : Retrieve the total transfer amount for the bank.
+     *
+     * @return the ResponseEntity with status 200 (OK) and the total transfer amount in the body
+     */
+    @GetMapping("/total-transfer-amount")
+    public ResponseEntity<BigDecimal> getTotalTransferAmount() {
+        BigDecimal totalTransferAmount = bankService.calculateTotalTransferAmount();
+        return ResponseEntity.ok(totalTransferAmount);
     }
 
     /**
