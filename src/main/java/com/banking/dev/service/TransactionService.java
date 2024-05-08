@@ -9,7 +9,6 @@ import com.banking.dev.web.rest.vm.TransferRequest;
 import com.banking.dev.web.rest.vm.WithdrawalRequest;
 import jakarta.transaction.Transactional;
 import java.math.BigDecimal;
-import java.time.Instant;
 import java.util.List;
 import java.util.Optional;
 import org.slf4j.Logger;
@@ -89,9 +88,19 @@ public class TransactionService {
             throw new ResponseStatusException(HttpStatus.BAD_REQUEST, "Insufficient funds");
         }
 
-        account.setBalance(currentBalance.subtract(withdrawalAmount));
+        // Flat fee deduction for withdrawal
+        BigDecimal flatFee = new BigDecimal("10.00");
+        BigDecimal totalWithdrawalAmount = withdrawalAmount.add(flatFee);
+
+        // Percentage fee deduction for withdrawal
+        BigDecimal percentageFee = totalWithdrawalAmount.multiply(new BigDecimal("0.05")); // Assuming 5% fee
+        BigDecimal totalAmountWithFee = totalWithdrawalAmount.add(percentageFee);
+
+        // Deduct total amount (original withdrawal amount + flat fee + percentage fee)
+        account.setBalance(currentBalance.subtract(totalAmountWithFee));
         accountRepository.save(account);
 
+        // Create transaction object and save it
         Transaction transaction = new Transaction();
         transaction.setAmount(withdrawalAmount.negate()); // Negative amount for withdrawal
         transaction.setOriginatingAccount(account);
@@ -110,9 +119,19 @@ public class TransactionService {
         BigDecimal depositAmount = depositRequest.getAmount();
         BigDecimal currentBalance = account.getBalance();
 
-        account.setBalance(currentBalance.add(depositAmount));
+        // Flat fee deduction for deposit
+        BigDecimal flatFee = new BigDecimal("10.00");
+        BigDecimal totalDepositAmount = depositAmount.subtract(flatFee);
+
+        // Percentage fee deduction for deposit
+        BigDecimal percentageFee = totalDepositAmount.multiply(new BigDecimal("0.05")); // Assuming 5% fee
+        BigDecimal totalAmountWithFee = totalDepositAmount.add(percentageFee);
+
+        // Add total amount (original deposit amount - flat fee - percentage fee)
+        account.setBalance(currentBalance.add(totalAmountWithFee));
         accountRepository.save(account);
 
+        // Create transaction object and save it
         Transaction transaction = new Transaction();
         transaction.setAmount(depositAmount);
         transaction.setOriginatingAccount(account);
@@ -136,18 +155,30 @@ public class TransactionService {
             .orElseThrow(() -> new ResponseStatusException(HttpStatus.NOT_FOUND, "Target account not found"));
 
         BigDecimal transferAmount = transferRequest.getAmount();
+
+        // Flat fee deduction for transfer
+        BigDecimal flatFee = new BigDecimal("10.00");
+        BigDecimal totalTransferAmount = transferAmount.add(flatFee);
+
+        // Percentage fee deduction for transfer
+        BigDecimal percentageFee = totalTransferAmount.multiply(new BigDecimal("0.05")); // Assuming 5% fee
+        BigDecimal totalAmountWithFee = totalTransferAmount.add(percentageFee);
+
         BigDecimal sourceBalance = sourceAccount.getBalance();
 
-        if (sourceBalance.compareTo(transferAmount) < 0) {
+        if (sourceBalance.compareTo(totalAmountWithFee) < 0) {
             throw new ResponseStatusException(HttpStatus.BAD_REQUEST, "Insufficient funds");
         }
 
-        sourceAccount.setBalance(sourceBalance.subtract(transferAmount));
-        targetAccount.setBalance(targetAccount.getBalance().add(transferAmount));
-
+        // Deduct total amount (original transfer amount + flat fee + percentage fee) from source account
+        sourceAccount.setBalance(sourceBalance.subtract(totalAmountWithFee));
         accountRepository.save(sourceAccount);
+
+        // Add total amount (original transfer amount) to target account
+        targetAccount.setBalance(targetAccount.getBalance().add(transferAmount));
         accountRepository.save(targetAccount);
 
+        // Create transaction object and save it
         Transaction transaction = new Transaction();
         transaction.setAmount(transferAmount.negate()); // Negative amount for transfer
         transaction.setOriginatingAccount(sourceAccount);
