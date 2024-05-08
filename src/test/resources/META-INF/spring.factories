@@ -1,0 +1,3 @@
+org.springframework.test.context.ContextCustomizerFactory = com.banking.dev.\
+    config.SqlTestContainersSpringContextCustomizerFactory,com.banking.dev.\
+    config.RedisTestContainersSpringContextCustomizerFactory
