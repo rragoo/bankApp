@@ -26,14 +26,12 @@ import tech.jhipster.web.util.ResponseUtil;
 @Transactional
 public class AuthorityResource {
 
-    private final Logger log = LoggerFactory.getLogger(AuthorityResource.class);
-
     private static final String ENTITY_NAME = "adminAuthority";
+    private final Logger log = LoggerFactory.getLogger(AuthorityResource.class);
+    private final AuthorityRepository authorityRepository;
 
     @Value("${jhipster.clientApp.name}")
     private String applicationName;
-
-    private final AuthorityRepository authorityRepository;
 
     public AuthorityResource(AuthorityRepository authorityRepository) {
         this.authorityRepository = authorityRepository;
