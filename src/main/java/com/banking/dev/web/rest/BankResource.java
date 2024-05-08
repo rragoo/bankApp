@@ -27,6 +27,19 @@ public class BankResource {
     }
 
     /**
+     * GET /api/bank-accounts : Retrieve all bank accounts.
+     *
+     * @return the ResponseEntity with status 200 (OK) and the list of bank accounts in the body
+     */
+    @GetMapping("/bank-accounts")
+    public ResponseEntity<List<Account>> getAllBankAccounts() {
+        log.debug("REST request to get all Bank Accounts");
+        List<Account> accounts = bankService.getAllAccounts();
+
+        return new ResponseEntity<>(accounts, HttpStatus.OK);
+    }
+
+    /**
      * Retrieves a specific bank by ID.
      *
      * @param id the ID of the bank to retrieve.
@@ -71,7 +84,7 @@ public class BankResource {
     /**
      * Updates an existing bank.
      *
-     * @param id   the ID of the bank to update.
+     * @param id          the ID of the bank to update.
      * @param updatedBank the updated bank data.
      * @return the updated bank with a 200 response, or a 400 response if the update is invalid.
      */

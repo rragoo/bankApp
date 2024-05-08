@@ -1,6 +1,8 @@
 package com.banking.dev.service;
 
+import com.banking.dev.domain.Account;
 import com.banking.dev.domain.Bank;
+import com.banking.dev.repository.AccountRepository;
 import com.banking.dev.repository.BankRepository;
 import jakarta.transaction.Transactional;
 import java.util.List;
@@ -19,8 +21,11 @@ public class BankService {
 
     private final BankRepository bankRepository;
 
-    public BankService(BankRepository bankRepository) {
+    private final AccountRepository accountRepository;
+
+    public BankService(BankRepository bankRepository, AccountRepository accountRepository) {
         this.bankRepository = bankRepository;
+        this.accountRepository = accountRepository;
     }
 
     public Optional<Bank> findOne(Long id) {
@@ -65,5 +70,9 @@ public class BankService {
         }
 
         bankRepository.deleteById(id);
+    }
+
+    public List<Account> getAllAccounts() {
+        return accountRepository.findAll();
     }
 }
