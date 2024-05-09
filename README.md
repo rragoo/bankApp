@@ -11,9 +11,9 @@ To begin using the application, follow these simple steps:
 3. Navigate to the project directory in your terminal.
 4. Run the following command to start the application:
 
-```bash
+```
 java -jar bankApp.jar
-
+```
 
 ## Using the Application
 
