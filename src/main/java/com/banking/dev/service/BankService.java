@@ -93,7 +93,6 @@ public class BankService {
             BigDecimal transactionAmount = transaction.getAmount();
             BigDecimal transactionFee = calculateTransactionFee(transaction);
 
-            // Accumulate the fee amount to the total
             totalTransactionFeeAmount = totalTransactionFeeAmount.add(transactionFee);
         }
 

@@ -59,6 +59,23 @@ class AccountServiceTest {
     }
 
     @Test
+    void testCreateAccount() {
+        // Mock data
+        Account account = new Account();
+        account.setUserName("Test User");
+        account.setBalance(BigDecimal.valueOf(1000.00));
+        Mockito.when(accountRepository.save(Mockito.any())).thenReturn(account);
+
+        // Test
+        Account createdAccount = accountService.createAccount(account);
+
+        // Assertion
+        Assertions.assertNotNull(createdAccount);
+        Assertions.assertEquals("Test User", createdAccount.getUserName());
+        Assertions.assertEquals(BigDecimal.valueOf(1000.00), createdAccount.getBalance());
+    }
+
+    @Test
     void testUpdateAccount() {
         // Mock data
         Account existingAccount = new Account();
