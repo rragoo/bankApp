@@ -1,15 +1,18 @@
-# Bank System Console Application
+# Bank System Application
 
-This console application simulates a basic bank system allowing users to manage multiple accounts and perform transactions. Below are the instructions on how to use the application:
+Welcome to the Bank System Application! This application provides a solution for managing multiple accounts and performing transactions within a banking system.
 
 ## Getting Started
 
-To start the application, follow these steps:
+To begin using the application, follow these simple steps:
 
 1. Clone this repository to your local machine.
-2. Make sure you have Java installed on your system.
+2. Ensure you have Java installed on your system.
 3. Navigate to the project directory in your terminal.
 4. Run the following command to start the application:
+
+```bash
+java -jar bankApp.jar
 
 
 ## Using the Application
@@ -44,12 +47,9 @@ Once the application is running, you can interact with it using the command-line
 
 ## Dependencies
 
-This application uses Java and does not require any additional dependencies to run. 
+This application is built using the Spring framework and does not require any additional dependencies to run.
 
 ---
-
-Feel free to customize the README file further based on your specific application requirements and functionalities.
-
 
 This application was generated using JHipster 8.3.0, you can find documentation and help at [https://www.jhipster.tech/documentation-archive/v8.3.0](https://www.jhipster.tech/documentation-archive/v8.3.0).
 
