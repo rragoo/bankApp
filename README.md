@@ -35,9 +35,7 @@ Once the application is running, you can interact with it using the command-line
 9. **Check Total Transaction Fee Amount**: Check the total transaction fee amount for the bank.
 
 10. **Check Total Transfer Amount**: Check the total transfer amount for the bank.
- ```
- totalTransferAmount <bankName>
- ```
+
 
 ## Notes
 
