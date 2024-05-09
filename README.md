@@ -1,4 +1,57 @@
-# bankApp
+# Bank System Console Application
+
+This console application simulates a basic bank system allowing users to manage multiple accounts and perform transactions. Below are the instructions on how to use the application:
+
+## Getting Started
+
+To start the application, follow these steps:
+
+1. Clone this repository to your local machine.
+2. Make sure you have Java installed on your system.
+3. Navigate to the project directory in your terminal.
+4. Run the following command to start the application:
+
+
+## Using the Application
+
+Once the application is running, you can interact with it using the command-line interface. Here are the available commands:
+
+1. **Create Bank**: You can create a new bank with the specified name.
+
+2. **Create Account**: Create a new account for a user in the bank.
+
+3. **Perform Transaction**: Perform a transaction from one account to another.
+
+4. **Withdraw Money**: Withdraw money from an account.
+
+5. **Deposit Money**: Deposit money into an account.
+
+6. **View Transaction History**: View the transaction history for a specific account.
+
+7. **Check Account Balance**: Check the current balance of an account.
+
+8. **List Bank Accounts**: List all accounts in the bank.
+
+9. **Check Total Transaction Fee Amount**: Check the total transaction fee amount for the bank.
+
+10. **Check Total Transfer Amount**: Check the total transfer amount for the bank.
+ ```
+ totalTransferAmount <bankName>
+ ```
+
+## Notes
+
+- Ensure that you provide the correct inputs for each command to avoid errors.
+- If you encounter any issues or need assistance, please refer to the application's documentation or contact support.
+
+## Dependencies
+
+This application uses Java and does not require any additional dependencies to run. 
+
+---
+
+Feel free to customize the README file further based on your specific application requirements and functionalities.
+
 
 This application was generated using JHipster 8.3.0, you can find documentation and help at [https://www.jhipster.tech/documentation-archive/v8.3.0](https://www.jhipster.tech/documentation-archive/v8.3.0).
 
