@@ -14,6 +14,29 @@ To begin using the application, follow these simple steps:
 ```
 java -jar bankApp.jar
 ```
+## Setting up the Database
+
+To set up the PostgreSQL database for this application, follow these steps:
+
+1. Make sure you have PostgreSQL installed on your system.
+2. Create a new database using the PostgreSQL command-line interface or a GUI tool like pgAdmin.
+3. Navigate to the `database` directory in your project.
+4. Execute the SQL script `schema.sql` against your PostgreSQL database to create the necessary tables and schema.
+
+Example using psql command-line interface:
+
+```bash
+psql -U <username> -d <database_name> -a -f init.sql
+```
+Example configuration in `application.yml` or `application-dev.yml` :
+
+```yaml
+spring:
+  datasource:
+    url: jdbc:postgresql://localhost:5432/mydatabase
+    username: myusername
+    password: mypassword
+  ```
 
 ## Using the Application
 
