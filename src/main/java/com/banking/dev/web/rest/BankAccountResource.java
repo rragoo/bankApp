@@ -70,7 +70,7 @@ public class BankAccountResource {
     /**
      * Updates an existing account.
      *
-     * @param id      the ID of the account to update.
+     * @param id             the ID of the account to update.
      * @param updatedAccount the updated account data.
      * @return the updated account with a 200 response, or a 400 response if the update is invalid.
      */

@@ -28,7 +28,7 @@ public class BankService {
 
     private final TransactionRepository transactionRepository;
 
-    private BigDecimal totalTransactionFeeAmount = BigDecimal.ZERO;
+    private final BigDecimal totalTransactionFeeAmount = BigDecimal.ZERO;
 
     public BankService(BankRepository bankRepository, AccountRepository accountRepository, TransactionRepository transactionRepository) {
         this.bankRepository = bankRepository;
