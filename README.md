@@ -26,7 +26,7 @@ To set up the PostgreSQL database for this application, follow these steps:
 Example using psql command-line interface:
 
 ```bash
-psql -U <username> -d <database_name> -a -f init.sql
+psql -U <username> -d <database_name> -a -f schema.sql
 ```
 Example configuration in `application.yml` or `application-dev.yml` :
 
